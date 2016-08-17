@@ -4,7 +4,19 @@ var port = process.env.PORT || 8080;
 
 var server = http.createServer(function(req, res) {
     
-    var result;
+    var ipaddress = req.headers['x-forwarded-for'];
+    
+    var language = req.headers['accept-language']
+            .split(',')[0];
+            
+    var software = req.headers['user-agent']
+            .match(/\((.+?)\)/)[1];
+    
+    var result = {
+            ipaddress: ipaddress,
+            language: language,
+            software: software
+    };
     
     if (result) {
        res.writeHead(200, { 'Content-Type': 'application/json' });
